@@ -554,10 +554,3 @@ The Flask implementation further demonstrates the integration of Machine Learnin
 
 ---
 
-## Author
-
-**Project:** CareerCompass
-
-**GitHub:** [Add your GitHub profile URL]
-
-**Technologies:** Python | Flask | Scikit-learn | HTML | CSS | JavaScript
