@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Prediction | CareerCompass</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">CareerCompass</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/assessment">Assessment</a>
+    </div>
+</nav>
+
+<section class="prediction-container">
+
+    <div class="prediction-heading">
+        <span class="tag">YOUR PERSONALIZED RESULTS</span>
+        <h1>Your Career Recommendations</h1>
+        <p>Based on your skills, strengths and interests, here are your recommended career paths.</p>
+    </div>
+
+    <div class="prediction-grid">
+
+        {% for item in predictions %}
+        <div class="prediction-card">
+
+            <div class="career-number">CAREER OPTION {{ loop.index }}</div>
+
+            <h2>{{ item.career }}</h2>
+
+            <div class="score">
+                {{ "%.1f"|format(item.score) }}%
+                <span>Match Score</span>
+            </div>
+
+            <div class="progress-background">
+                <div class="progress-fill"
+                     style="width: {{ item.score | float }}%">
+                </div>
+            </div>
+
+            {% if loop.first %}
+                <span class="recommended-label">Top Recommendation</span>
+            {% endif %}
+
+            <a href="{{ url_for('skill_gap', career=item.career) }}"
+               class="skill-gap-btn">
+                Analyze Skill Gaps →
+            </a>
+
+            <a href="{{ url_for('roadmap', career=item.career) }}"
+               class="skill-gap-btn roadmap-link">
+                View Learning Roadmap →
+            </a>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="prediction-actions">
+        <a href="/assessment" class="primary-btn">Retake Assessment</a>
+        <a href="/" class="secondary-btn">Back to Home</a>
+    </div>
+
+</section>
+
+<footer>
+    <p>© 2026 CareerCompass | AI-Powered Career Guidance Platform</p>
+</footer>
+
+</body>
+</html>

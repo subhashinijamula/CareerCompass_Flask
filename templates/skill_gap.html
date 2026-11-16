@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Skill Gap Analysis | CareerCompass</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+
+    <div class="logo">CareerCompass</div>
+
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+
+        <a href="{{ url_for('prediction') }}">
+            Career Recommendations
+        </a>
+
+        <a href="{{ url_for('assessment') }}">
+            Assessment
+        </a>
+    </div>
+
+</nav>
+
+
+<section class="skill-container">
+
+    <!-- Page Heading -->
+    <div class="skill-heading">
+
+        <span class="tag">PERSONALIZED SKILL ANALYSIS</span>
+
+        <h1>Skill Gap Analysis</h1>
+
+        <p>
+            Understand your current skills and discover
+            what you need to improve for your selected career.
+        </p>
+
+        <div class="career-badge">
+            Selected Career: {{ career }}
+        </div>
+
+    </div>
+
+
+    <!-- Skill Summary -->
+    <div class="skill-summary">
+
+        <div class="summary-card">
+
+            <h3>{{ skill_gaps|length }}</h3>
+
+            <p>Total Skills Evaluated</p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                {{ skill_gaps|selectattr('gap', 'equalto', 0)|list|length }}
+            </h3>
+
+            <p>Skills Meeting Target</p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                {{ skill_gaps|selectattr('gap', 'greaterthan', 0)|list|length }}
+            </h3>
+
+            <p>Skills to Improve</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Skill Comparison -->
+    <div class="skill-list">
+
+        <h2>Your Skill Comparison</h2>
+
+        <p class="skill-description">
+            Current level versus required level (scale of 1–5).
+        </p>
+
+
+        {% for skill in skill_gaps %}
+
+        <div class="skill-card">
+
+            <div class="skill-top">
+
+                <h3>{{ skill.skill }}</h3>
+
+                {% if skill.gap == 0 %}
+
+                    <span class="status-good">
+                        Target Reached
+                    </span>
+
+                {% else %}
+
+                    <span class="status-gap">
+                        Gap: {{ skill.gap }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- Current and Required Values -->
+            <div class="skill-values">
+
+                <span>
+                    Current: {{ skill.current }}/5
+                </span>
+
+                <span>
+                    Required: {{ skill.required }}/5
+                </span>
+
+            </div>
+
+
+            <!-- Comparison Bars -->
+            <div class="comparison-bars">
+
+                <div class="bar-row">
+
+                    <span>Current</span>
+
+                    <div class="bar-background">
+
+                        <div class="current-bar"
+                             style="width: {{ skill.current * 20 }}%;">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="bar-row">
+
+                    <span>Required</span>
+
+                    <div class="bar-background">
+
+                        <div class="required-bar"
+                             style="width: {{ skill.required * 20 }}%;">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Improvement Message -->
+            {% if skill.gap > 0 %}
+
+                <p class="improve-text">
+
+                    Improve this skill by {{ skill.gap }}
+                    level(s) to reach the target.
+
+                </p>
+
+            {% else %}
+
+                <p class="achieved-text">
+
+                    Excellent! You have reached the required level.
+
+                </p>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- Navigation Actions -->
+    <div class="skill-actions">
+
+        <a href="{{ url_for('prediction') }}"
+           class="secondary-btn">
+
+            ← Career Recommendations
+
+        </a>
+
+
+        <a href="{{ url_for('roadmap', career=career) }}"
+           class="primary-btn">
+
+            View Learning Roadmap →
+
+        </a>
+
+
+        <a href="{{ url_for('assessment') }}"
+           class="secondary-btn">
+
+            Retake Assessment
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- Footer -->
+<footer>
+
+    <p>
+        © 2026 CareerCompass | AI-Powered Career Guidance Platform
+    </p>
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ career }} Learning Roadmap | CareerCompass</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="roadmap-page">
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="{{ url_for('home') }}" class="logo">
+            Career<span>Compass</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('prediction') }}">Predictions</a>
+            <a href="{{ url_for('skill_gap', career=career) }}">Skill Gap</a>
+            <a href="{{ url_for('reset') }}">Start Again</a>
+        </div>
+    </div>
+</nav>
+
+
+<main class="roadmap-container">
+
+    <section class="roadmap-hero">
+
+        <span class="roadmap-eyebrow">YOUR PERSONAL LEARNING PATH</span>
+
+        <h1>{{ career }} Roadmap</h1>
+
+        <p>
+            Follow this structured learning path, strengthen your skills,
+            complete practical exercises and build projects for your career.
+        </p>
+
+        <div class="roadmap-hero-stats">
+            <div>
+                <strong>{{ skill_tree|length }}</strong>
+                <span>Skill Branches</span>
+            </div>
+
+            <div>
+                <strong>3</strong>
+                <span>Learning Levels</span>
+            </div>
+
+            <div>
+                <strong>{{ skill_gaps|selectattr('gap', 'greaterthan', 0)|list|length }}</strong>
+                <span>Skills to Improve</span>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- THREE-STAGE ROADMAP -->
+
+    <section class="roadmap-section">
+
+        <div class="section-heading">
+            <span class="section-tag">YOUR JOURNEY</span>
+            <h2>Three-Step Career Roadmap</h2>
+            <p>Understand the stages of your learning journey.</p>
+        </div>
+
+        <div class="roadmap-stages">
+
+            {% for stage in roadmap_stages %}
+
+            <div class="roadmap-stage-card">
+
+                <div class="stage-number">{{ stage.stage }}</div>
+
+                <div>
+                    <h3>{{ stage.title }}</h3>
+                    <p>{{ stage.description }}</p>
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- SKILL TREE -->
+
+    <section class="roadmap-section skill-tree-section">
+
+        <div class="section-heading">
+            <span class="section-tag">DETAILED LEARNING PATH</span>
+            <h2>Your Career Skill Tree</h2>
+            <p>
+                Expand each skill branch to explore its topics,
+                exercises and projects.
+            </p>
+        </div>
+
+
+        <div class="tree-root">
+            <div class="tree-root-icon">✦</div>
+
+            <div>
+                <span>YOUR CAREER GOAL</span>
+                <h3>{{ career }}</h3>
+            </div>
+        </div>
+
+
+        <div class="skill-tree">
+
+            {% for skill in skill_tree %}
+
+            <article class="skill-branch">
+
+                <button type="button"
+                        class="skill-branch-header"
+                        aria-expanded="false">
+
+                    <span class="branch-icon">✧</span>
+
+                    <span class="branch-title">
+                        <strong>{{ skill.name }}</strong>
+                        <small>{{ skill.purpose }}</small>
+                    </span>
+
+                    <span class="branch-level-count">
+                        {{ skill.levels|length }} Levels
+                    </span>
+
+                    <span class="branch-arrow">⌄</span>
+
+                </button>
+
+
+                <div class="skill-branch-content">
+
+                    <div class="level-list">
+
+                        {% for level in skill.levels %}
+
+                        <div class="learning-level">
+
+                            <div class="level-heading">
+                                <span class="level-dot"></span>
+                                <div>
+                                    <h4>{{ level.name }}</h4>
+                                    <p>{{ level.goal }}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="level-details">
+
+                                <div class="learning-column">
+
+                                    <h5>📘 Topics to Learn</h5>
+
+                                    <ul>
+                                        {% for topic in level.topics %}
+                                        <li>{{ topic }}</li>
+                                        {% endfor %}
+                                    </ul>
+
+                                </div>
+
+
+                                <div class="learning-column practice-column">
+
+                                    <h5>✏️ Practice Exercise</h5>
+
+                                    <p>{{ level.practice }}</p>
+
+                                </div>
+
+
+                                {% if level.mini_project %}
+
+                                <div class="mini-project-box">
+
+                                    <span>PROJECT</span>
+
+                                    <h5>{{ level.mini_project }}</h5>
+
+                                </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- CAPSTONE PROJECT -->
+
+                    <div class="capstone-box">
+
+                        <div class="capstone-icon">🏆</div>
+
+                        <div>
+                            <span>FINAL SKILL PROJECT</span>
+
+                            <h4>{{ skill.capstone_title }}</h4>
+
+                            <p>{{ skill.capstone }}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <section class="roadmap-footer">
+
+        <h2>Keep Learning. Keep Building.</h2>
+
+        <p>
+            Complete the learning levels, practice regularly
+            and add your projects to your portfolio.
+        </p>
+
+        <a href="{{ url_for('skill_gap', career=career) }}"
+           class="roadmap-back-btn">
+            Back to Skill Gap Analysis →
+        </a>
+
+    </section>
+
+</main>
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

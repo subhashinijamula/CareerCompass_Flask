@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Assessment | CareerCompass</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">CareerCompass</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/assessment">Assessment</a>
+    </div>
+</nav>
+
+<section class="assessment-container">
+
+    <div class="assessment-heading">
+        <span class="tag">PERSONALIZED CAREER DISCOVERY</span>
+        <h1>Student Assessment</h1>
+        <p>Tell us about your skills, strengths and interests to discover suitable career paths.</p>
+    </div>
+
+    {% if submitted %}
+    <div class="success-message">
+        Assessment details received successfully! Next, we'll connect these answers to your ML model.
+    </div>
+    {% endif %}
+
+    <form action="/assessment" method="POST">
+
+        <div class="form-section">
+            <h2>01. Education Details</h2>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Education Level</label>
+                    <select name="education_level" required>
+                        <option value="">Select education</option>
+                        <option value="1">Intermediate</option>
+                        <option value="2">Diploma</option>
+                        <option value="3">Bachelor's Degree</option>
+                        <option value="4">Master's Degree</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>CGPA (0 - 10)</label>
+                    <input type="number" name="cgpa"
+                           min="0" max="10" step="0.01"
+                           placeholder="Enter your CGPA" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>02. Technical Skills</h2>
+            <p class="form-description">Rate your current knowledge in each skill.</p>
+
+            <div class="form-grid">
+
+                {% for skill in [
+                    ('Python', 'python'),
+                    ('Java', 'java'),
+                    ('SQL', 'sql'),
+                    ('Statistics', 'statistics'),
+                    ('Machine Learning', 'machine_learning'),
+                    ('Data Visualization', 'data_visualization'),
+                    ('Web Development', 'web_development'),
+                    ('Cybersecurity', 'cybersecurity'),
+                    ('Cloud Computing', 'cloud'),
+                    ('UI/UX Design', 'design')
+                ] %}
+                <div class="form-group">
+                    <label>{{ skill[0] }}</label>
+                    <select name="{{ skill[1] }}" required>
+                        <option value="1">1 - Beginner</option>
+                        <option value="2">2 - Basic</option>
+                        <option value="3" selected>3 - Intermediate</option>
+                        <option value="4">4 - Advanced</option>
+                        <option value="5">5 - Expert</option>
+                    </select>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>03. Personal Strengths</h2>
+            <p class="form-description">Rate your strengths from 1 to 5.</p>
+
+            <div class="form-grid">
+
+                {% for strength in [
+                    ('Communication', 'communication'),
+                    ('Analytical Thinking', 'analytical_thinking'),
+                    ('Creativity', 'creativity'),
+                    ('Problem Solving', 'problem_solving')
+                ] %}
+                <div class="form-group">
+                    <label>{{ strength[0] }}</label>
+                    <select name="{{ strength[1] }}" required>
+                        <option value="1">1 - Low</option>
+                        <option value="2">2 - Basic</option>
+                        <option value="3" selected>3 - Average</option>
+                        <option value="4">4 - Good</option>
+                        <option value="5">5 - Excellent</option>
+                    </select>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>04. Career Interests</h2>
+            <p class="form-description">How interested are you in these areas?</p>
+
+            <div class="form-grid">
+
+                {% for interest in [
+                    ('Research', 'research_interest'),
+                    ('Business', 'business_interest'),
+                    ('Design', 'design_interest'),
+                    ('Security', 'security_interest'),
+                    ('Infrastructure', 'infrastructure_interest')
+                ] %}
+                <div class="form-group">
+                    <label>{{ interest[0] }}</label>
+                    <select name="{{ interest[1] }}" required>
+                        <option value="1">1 - Not Interested</option>
+                        <option value="2">2 - Slightly Interested</option>
+                        <option value="3" selected>3 - Moderately Interested</option>
+                        <option value="4">4 - Interested</option>
+                        <option value="5">5 - Very Interested</option>
+                    </select>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <button type="submit" class="primary-btn submit-btn">
+            Submit Assessment →
+        </button>
+
+    </form>
+
+</section>
+
+<footer>
+    <p>© 2026 CareerCompass | AI-Powered Career Guidance Platform</p>
+</footer>
+
+</body>
+</html>
