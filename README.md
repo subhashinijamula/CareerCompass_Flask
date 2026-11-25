@@ -344,4 +344,5 @@ CareerCompass demonstrates how Machine Learning and Flask can be combined to dev
 
 By integrating career prediction, skill-gap analysis, learning roadmaps, and interactive skill trees, the application helps students explore potential career paths and understand the skills required to progress toward their goals.
 
+Access the appication :https://careercompass-flask-190k.onrender.com/
 **Developed using Python, Machine Learning, Scikit-learn, and Flask.**
